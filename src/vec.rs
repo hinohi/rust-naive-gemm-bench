@@ -1,5 +1,7 @@
 use std::ops::{Index, IndexMut};
 
+use crate::{load_array_data, load_matrix_data};
+
 pub struct Matrix(Vec<Vec<f64>>);
 
 impl Index<(usize, usize)> for Matrix {
@@ -36,18 +38,28 @@ impl Matrix {
     }
 }
 
+pub fn new_matrix(size: usize) -> Matrix {
+    let mut mat = Matrix::zero(size);
+    load_matrix_data(size, &mut mat);
+    mat
+}
+
+pub fn new_array(size: usize, samples: usize) -> Vec<Vec<f64>> {
+    let mut arr = vec![vec![0.0; size]; samples];
+    load_array_data(size, &mut arr);
+    arr
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{compare_output, load_array_data, load_matrix_data};
+    use crate::compare_output;
 
     #[test]
     fn dot() {
         const SIZE: usize = 16;
-        let mut mat = Matrix::zero(SIZE);
-        load_matrix_data(SIZE, &mut mat);
-        let mut arr = vec![vec![0.0; SIZE]; 100];
-        load_array_data(SIZE, &mut arr);
+        let mat = new_matrix(SIZE);
+        let arr = new_array(SIZE, 10);
         let mut outputs = Vec::with_capacity(arr.len());
         for a in arr {
             outputs.push(mat.dot(&a));

@@ -4,6 +4,7 @@ use ndarray::{Array1, Array2};
 use rand::Rng;
 use rand_pcg::Mcg128Xsl64;
 
+pub mod nalg;
 pub mod vec;
 
 pub fn load_matrix_data<M>(size: usize, m: &mut M)
