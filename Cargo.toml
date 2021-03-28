@@ -10,3 +10,4 @@ edition = "2018"
 ndarray = "0.15.0"
 rand = "0.8.3"
 rand_pcg = "0.3.0"
+getrandom = { version = "0.2", features = ["js"] }
